@@ -44,7 +44,7 @@ export default function Follow() {
         <h4>전체 공지사항</h4>
         <SearchBar allNotice={allNotice} setFilteredNotice={setFilteredNotice} />
 
-        <View style={{ maxHeight: 360 }}>
+        <View style={{ maxHeight: 320 }}>
           <ScrollView style={styles.scrollView}>
             {filteredNotice.map(title => {
               const tail = myNotice.includes(title) ? 'minus' : 'plus';
