@@ -1,23 +1,11 @@
 import * as React from 'react';
-import {
-  Text,
-  View,
-  StatusBar,
-  Button,
-  StyleSheet,
-  Image,
-  Dimensions,
-  TouchableOpacity,
-} from 'react-native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Text, View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import Chat from '../Chat';
 export default function Home({ navigation }) {
   const handlePagination = () => {
     navigation.navigate('Chat');
   };
-  const Tab = createBottomTabNavigator();
 
   return (
     <View style={styles.container}>

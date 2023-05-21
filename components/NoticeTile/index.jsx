@@ -1,10 +1,20 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 import { Avatar } from '..';
 import Icon from 'react-native-vector-icons/AntDesign';
 
-export default function NoticeTile({ title }) {
+export default function NoticeTile({ title, tail, setMyNotice }) {
+  const TailComponent = () => {
+    switch (tail) {
+      case 'plus':
+        return <Icon name="pluscircleo" size={25} />;
+      case 'minus':
+        return <Icon name="minuscircleo" size={25} />;
+      default:
+        return <></>;
+    }
+  };
   return (
     <View style={styles.container}>
       <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 10 }}>
@@ -12,7 +22,17 @@ export default function NoticeTile({ title }) {
         <Text style={styles.mainText}>{title}</Text>
       </View>
 
-      <Icon name="minuscircleo" size={25} />
+      <TouchableOpacity
+        onPress={() => {
+          if (tail === 'plus') {
+            setMyNotice(prev => [...prev, title]);
+          } else if (tail === 'minus') {
+            setMyNotice(prev => prev.filter(notice => notice !== title));
+          }
+        }}
+      >
+        <TailComponent />
+      </TouchableOpacity>
     </View>
   );
 }

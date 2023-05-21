@@ -1,10 +1,10 @@
 import React from 'react';
-import { View, Text, StyleSheet, TextInput } from 'react-native';
+import { View, StyleSheet, TextInput } from 'react-native';
 
 import Icon from 'react-native-vector-icons/AntDesign';
 
 export default function SearchBar({ allNotice, setFilteredNotice }) {
-  const [text, onChangeText] = React.useState('충남대학교');
+  const [text, onChangeText] = React.useState('');
 
   React.useEffect(() => {
     if (text === '') return setFilteredNotice(allNotice);
