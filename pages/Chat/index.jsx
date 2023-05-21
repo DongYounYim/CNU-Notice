@@ -1,6 +1,6 @@
 import * as React from "react";
-import { Text, View, StatusBar } from "react-native";
-import { ChatRoom } from "../../components";
+import { View } from "react-native";
+import { ChatTile } from "../../components";
 
 const DummyData = [
   {
@@ -28,7 +28,7 @@ export default function Chat() {
   return (
     <View>
       {DummyData.map(({ title, content, tail }, key) => (
-        <ChatRoom title={title} content={content} tail={tail} key={key} />
+        <ChatTile title={title} content={content} tail={tail} key={key} />
       ))}
     </View>
   );

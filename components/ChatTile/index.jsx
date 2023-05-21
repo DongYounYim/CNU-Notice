@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
-import { Avatar } from "../";
+import { Avatar } from "..";
 import Icon from "react-native-vector-icons/AntDesign";
 
 export default function ChatRoom({ title, content, tail }) {
@@ -19,16 +19,12 @@ export default function ChatRoom({ title, content, tail }) {
   };
   return (
     <View style={styles.container}>
-      <View>
-        <Avatar />
-      </View>
+      <Avatar />
       <View style={{ flex: 1 }}>
         <Text style={styles.mainText}>{title}</Text>
         {content && <Text style={styles.subText}>{content}</Text>}
       </View>
-      <View>
-        <TailComponent />
-      </View>
+      <TailComponent />
     </View>
   );
 }
