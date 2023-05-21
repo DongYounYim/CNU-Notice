@@ -18,6 +18,7 @@ export default function Follow() {
     '충남대학교 기계공학과5',
     '충남대학교 기계공학과6',
   ]);
+  const [filteredNotice, setFilteredNotice] = React.useState(allNotice);
   return (
     <View style={{ flex: 1 }}>
       <View style={{ paddingHorizontal: '10px' }}>
@@ -31,11 +32,11 @@ export default function Follow() {
 
       <View style={{ paddingHorizontal: '10px' }}>
         <h4>전체 공지사항</h4>
-        <SearchBar />
+        <SearchBar allNotice={allNotice} setFilteredNotice={setFilteredNotice} />
 
         <View style={{ height: 360 }}>
           <ScrollView style={styles.scrollView}>
-            {allNotice.map(title => (
+            {filteredNotice.map(title => (
               <NoticeTile title={title} key={title} />
             ))}
           </ScrollView>

@@ -3,8 +3,14 @@ import { View, Text, StyleSheet, TextInput } from 'react-native';
 
 import Icon from 'react-native-vector-icons/AntDesign';
 
-export default function SearchBar() {
+export default function SearchBar({ allNotice, setFilteredNotice }) {
   const [text, onChangeText] = React.useState('충남대학교');
+
+  React.useEffect(() => {
+    if (text === '') return setFilteredNotice(allNotice);
+    const filteredNotice = allNotice.filter(notice => notice.includes(text));
+    setFilteredNotice(filteredNotice);
+  }, [text]);
   return (
     <View style={styles.container}>
       <TextInput
