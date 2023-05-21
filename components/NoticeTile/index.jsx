@@ -25,6 +25,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     gap: 12,
     padding: 12,
+    height: 60,
   },
   mainText: {
     fontSize: 16,
