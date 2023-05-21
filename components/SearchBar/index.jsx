@@ -11,6 +11,7 @@ export default function SearchBar({ allNotice, setFilteredNotice }) {
     const filteredNotice = allNotice.filter(notice => notice.includes(text));
     setFilteredNotice(filteredNotice);
   }, [text]);
+
   return (
     <View style={styles.container}>
       <TextInput
