@@ -4,7 +4,7 @@ import { View, Text, StyleSheet } from "react-native";
 import { Avatar } from "..";
 import Icon from "react-native-vector-icons/AntDesign";
 
-export default function ChatRoom({ title, content, tail }) {
+export default function ChatTile({ title, content, tail }) {
   const TailComponent = () => {
     switch (tail) {
       case "alram":

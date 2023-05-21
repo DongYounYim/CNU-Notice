@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View } from "react-native";
+import { View, TouchableOpacity } from "react-native";
 import { ChatTile } from "../../components";
 
 const DummyData = [
@@ -24,11 +24,16 @@ const DummyData = [
   },
 ];
 
-export default function Chat() {
+export default function Chat({ navigation }) {
   return (
     <View>
       {DummyData.map(({ title, content, tail }, key) => (
-        <ChatTile title={title} content={content} tail={tail} key={key} />
+        <TouchableOpacity
+          key={key}
+          onPress={() => navigation.navigate("ChatRoom", { title })}
+        >
+          <ChatTile title={title} content={content} tail={tail} />
+        </TouchableOpacity>
       ))}
     </View>
   );

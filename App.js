@@ -7,7 +7,8 @@ import Icon from "react-native-vector-icons/Ionicons";
 import Chat from "./pages/Chat";
 import Home from "./pages/Home";
 import Follow from "./pages/Follow";
-import { TouchableOpacity, Pressable } from "react-native-web";
+import ChatRoom from "./pages/ChatRoom";
+import { TouchableOpacity, Pressable } from "react-native";
 
 const Stack = createNativeStackNavigator();
 
@@ -67,6 +68,27 @@ export default function App() {
               >
                 <Text>완료</Text>
               </Pressable>
+            ),
+            headerLeft: () => (
+              <TouchableOpacity
+                style={{ paddingLeft: "8px" }}
+                onPress={() => navigation.pop()}
+              >
+                <Icon name="arrow-back" size={30} />
+              </TouchableOpacity>
+            ),
+          })}
+        />
+        <Stack.Screen
+          name="ChatRoom"
+          component={ChatRoom}
+          options={({ navigation, route }) => ({
+            headerTitle: () => (
+              <View>
+                <Text style={{ fontSize: 18, fontWeight: "bold" }}>
+                  {route.params.title}
+                </Text>
+              </View>
             ),
             headerLeft: () => (
               <TouchableOpacity
