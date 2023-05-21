@@ -7,7 +7,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 import Chat from "./pages/Chat";
 import Home from "./pages/Home";
 import Follow from "./pages/Follow";
-import { TouchableOpacity } from "react-native-web";
+import { TouchableOpacity, Pressable } from "react-native-web";
 
 const Stack = createNativeStackNavigator();
 
@@ -24,27 +24,60 @@ export default function App() {
           name="Chat"
           component={Chat}
           options={({ navigation }) => ({
-            headerTitle: ({ children }) => (
+            headerTitle: () => (
               <View>
                 <Text style={{ fontSize: 18, fontWeight: "bold" }}>공지방</Text>
               </View>
             ),
-            headerRight: (props) => (
-              <TouchableOpacity>
+            headerRight: () => (
+              <TouchableOpacity
+                style={{ paddingRight: "8px" }}
+                onPress={() => navigation.navigate("Follow")}
+              >
                 <Icon name="add-circle-outline" size={30} />
               </TouchableOpacity>
             ),
             headerLeft: () => (
-              <TouchableOpacity onPress={() => navigation.pop()}>
+              <TouchableOpacity
+                style={{ paddingLeft: "8px" }}
+                onPress={() => navigation.pop()}
+              >
                 <Icon name="arrow-back" size={30} />
               </TouchableOpacity>
             ),
-            headerStyle: {
-              margin: "8px 8px",
-            },
           })}
         />
-        <Stack.Screen name="Follow" component={Follow} />
+        <Stack.Screen
+          name="Follow"
+          component={Follow}
+          options={({ navigation }) => ({
+            headerTitle: () => (
+              <View>
+                <Text style={{ fontSize: 18, fontWeight: "bold" }}>팔로우</Text>
+              </View>
+            ),
+            headerRight: () => (
+              <Pressable
+                style={{
+                  border: "1px solid black",
+                  padding: "8px",
+                  marginRight: "8px",
+                }}
+                onPress={() => navigation.pop()}
+              >
+                <Text>완료</Text>
+              </Pressable>
+            ),
+            headerLeft: () => (
+              <TouchableOpacity
+                style={{ paddingLeft: "8px" }}
+                onPress={() => navigation.pop()}
+              >
+                <Icon name="arrow-back" size={30} />
+              </TouchableOpacity>
+            ),
+          })}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
