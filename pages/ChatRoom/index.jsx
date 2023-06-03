@@ -4,15 +4,6 @@ import { ChatMessage } from '../../components';
 import Icon from 'react-native-vector-icons/AntDesign';
 import Bookmark from 'react-native-vector-icons/FontAwesome';
 
-import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
-
-async function getCities(db) {
-  const citiesCol = collection(db, 'cities');
-  const citySnapshot = await getDocs(citiesCol);
-  const cityList = citySnapshot.docs.map(doc => doc.data());
-  return cityList;
-}
-
 export default function ChatRoom({ route }) {
   const [text, onChangeText] = React.useState('');
   const [isBookMark, setIsBookMark] = React.useState(false);

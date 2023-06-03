@@ -1,18 +1,14 @@
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 
-import { Avatar } from "..";
-import Icon from "react-native-vector-icons/AntDesign";
+import { Avatar } from '..';
+import Icon from 'react-native-vector-icons/AntDesign';
 
 export default function ChatTile({ title, content, tail }) {
   const TailComponent = () => {
     switch (tail) {
-      case "alram":
+      case 'alram':
         return <View style={styles.alram} />;
-      case "plus":
-        return <Icon name="pluscircleo" size={20} />;
-      case "minus":
-        return <Icon name="minuscircleo" size={20} />;
       default:
         return <></>;
     }
@@ -31,28 +27,28 @@ export default function ChatTile({ title, content, tail }) {
 
 const styles = StyleSheet.create({
   container: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
     gap: 12,
     padding: 12,
   },
   mainText: {
     fontSize: 16,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   subText: {
-    display: "block",
-    whiteSpace: "nowrap",
+    display: 'block',
+    whiteSpace: 'nowrap',
     fontSize: 12,
-    overflow: "hidden",
-    textOverflow: "ellipsis",
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
   },
   alram: {
-    display: "relative",
-    borderRadius: "50%",
+    display: 'relative',
+    borderRadius: '50%',
     width: 10,
     height: 10,
-    backgroundColor: "blue",
+    backgroundColor: 'blue',
   },
 });
