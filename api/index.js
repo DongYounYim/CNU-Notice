@@ -25,7 +25,6 @@ export const getMyNotices = async setState => {
   try {
     const noticeCol = collection(db, 'notice');
     const noticeSnapshot = await getDocs(noticeCol);
-    console.log(noticeSnapshot.docs[0].data().noticeList);
     setState(noticeSnapshot.docs[0].data().noticeList);
   } catch (e) {
     console.error(e);

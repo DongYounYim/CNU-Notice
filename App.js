@@ -58,8 +58,8 @@ export default function App() {
                   padding: '8px',
                   marginRight: '8px',
                 }}
-                onPress={() => {
-                  saveMyNotices(Object.values(params.myNotice));
+                onPress={async () => {
+                  await saveMyNotices(Object.values(params.myNotice));
                   navigation.pop();
                 }}
               >

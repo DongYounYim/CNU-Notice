@@ -3,6 +3,7 @@ import { View, TouchableOpacity } from 'react-native';
 import { ChatTile } from '../../components';
 
 import { getMyNotices } from '../../api';
+import { useFocusEffect } from '@react-navigation/native';
 
 const DummyData = [
   {
@@ -27,15 +28,21 @@ const DummyData = [
 
 export default function Chat({ navigation }) {
   const [boards, setBoards] = React.useState([]);
+  const [myNotice, setMyNotice] = React.useState([]);
 
-  React.useEffect(() => {
-    getMyNotices(setBoards);
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      getMyNotices(setMyNotice);
+    }, []),
+  );
   return (
     <View>
-      {DummyData.map(({ title, content, tail }, key) => (
-        <TouchableOpacity key={key} onPress={() => navigation.navigate('ChatRoom', { title })}>
-          <ChatTile title={title} content={content} tail={tail} />
+      {myNotice.map(({ board_no, board_nm, site_nm }) => (
+        <TouchableOpacity
+          key={board_no}
+          onPress={() => navigation.navigate('ChatRoom', { title: `${site_nm} (${board_nm})` })}
+        >
+          <ChatTile title={`${site_nm} (${board_nm})`} />
         </TouchableOpacity>
       ))}
     </View>
