@@ -8,9 +8,11 @@ export default function SearchBar({ allNotice, setFilteredNotice }) {
 
   React.useEffect(() => {
     if (text === '') return setFilteredNotice(allNotice);
-    const filteredNotice = allNotice.filter(notice => notice.includes(text));
+    const filteredNotice = allNotice.filter(
+      notice => notice['site_nm'].includes(text) || notice['board_nm'].includes(text),
+    );
     setFilteredNotice(filteredNotice);
-  }, [text]);
+  }, [allNotice, text]);
 
   return (
     <View style={styles.container}>
