@@ -7,6 +7,7 @@ import Bookmark from 'react-native-vector-icons/FontAwesome';
 export default function ChatRoom({ route }) {
   const [text, onChangeText] = React.useState('');
   const [isBookMark, setIsBookMark] = React.useState(false);
+
   return (
     <View style={styles.container}>
       <ScrollView style={styles.scrollView}>

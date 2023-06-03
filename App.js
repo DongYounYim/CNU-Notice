@@ -9,13 +9,14 @@ import Home from './pages/Home';
 import Follow from './pages/Follow';
 import ChatRoom from './pages/ChatRoom';
 import { TouchableOpacity, Pressable } from 'react-native';
+import { saveMyNotices } from './api';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
+      <Stack.Navigator initialRouteName="Chat">
         <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
         <Stack.Screen
           name="Chat"
@@ -44,7 +45,7 @@ export default function App() {
         <Stack.Screen
           name="Follow"
           component={Follow}
-          options={({ navigation }) => ({
+          options={({ navigation, route: { params } }) => ({
             headerTitle: () => (
               <View>
                 <Text style={{ fontSize: 18, fontWeight: 'bold' }}>충남대학교 공지사항</Text>
@@ -57,7 +58,10 @@ export default function App() {
                   padding: '8px',
                   marginRight: '8px',
                 }}
-                onPress={() => navigation.pop()}
+                onPress={async () => {
+                  await saveMyNotices(Object.values(params.myNotice));
+                  navigation.pop();
+                }}
               >
                 <Text>완료</Text>
               </Pressable>

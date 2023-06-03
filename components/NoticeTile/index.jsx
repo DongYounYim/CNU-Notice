@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Avatar } from '..';
 import Icon from 'react-native-vector-icons/AntDesign';
 
-export default function NoticeTile({ title, tail, setMyNotice }) {
+export default function NoticeTile({ notice, tail, setMyNotice }) {
   const TailComponent = () => {
     switch (tail) {
       case 'plus':
@@ -19,15 +19,15 @@ export default function NoticeTile({ title, tail, setMyNotice }) {
     <View style={styles.container}>
       <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 10 }}>
         <Avatar />
-        <Text style={styles.mainText}>{title}</Text>
+        <Text style={styles.mainText}>{`${notice['site_nm']} (${notice['board_nm']})`}</Text>
       </View>
 
       <TouchableOpacity
         onPress={() => {
           if (tail === 'plus') {
-            setMyNotice(prev => [...prev, title]);
+            setMyNotice(prev => [...prev, notice]);
           } else if (tail === 'minus') {
-            setMyNotice(prev => prev.filter(notice => notice !== title));
+            setMyNotice(prev => prev.filter(mNotice => mNotice['board_no'] !== notice['board_no']));
           }
         }}
       >
