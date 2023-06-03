@@ -3,22 +3,27 @@ import { View, ScrollView, StyleSheet } from 'react-native';
 import { HorizonLine } from '../../components';
 import NoticeTile from '../../components/NoticeTile';
 import SearchBar from '../../components/SearchBar';
-import { getAllBoards } from '../../api';
+import { getAllNotices, getMyNotices, saveMyNotices } from '../../api';
 
-export default function Follow() {
+export default function Follow({ navigation: { setParams } }) {
   const [myNotice, setMyNotice] = React.useState([]);
   const [allNotice, setAllNotice] = React.useState([]);
   const [filteredNotice, setFilteredNotice] = React.useState(allNotice);
 
   const handdleAllNotice = async () => {
-    const result = await getAllBoards();
+    const result = await getAllNotices();
     setAllNotice(result.RESULT);
   };
+
   React.useEffect(() => {
     //전체 공지 api 요청
+    getMyNotices(setMyNotice);
     handdleAllNotice();
   }, []);
 
+  React.useEffect(() => {
+    setParams({ myNotice });
+  }, [myNotice]);
   return (
     <View style={{ flex: 1 }}>
       <View style={{ paddingHorizontal: '10px', maxHeight: 240 }}>

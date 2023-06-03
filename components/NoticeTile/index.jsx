@@ -27,7 +27,7 @@ export default function NoticeTile({ notice, tail, setMyNotice }) {
           if (tail === 'plus') {
             setMyNotice(prev => [...prev, notice]);
           } else if (tail === 'minus') {
-            setMyNotice(prev => prev.filter(notice => notice['board_no'] !== notice['board_no']));
+            setMyNotice(prev => prev.filter(mNotice => mNotice['board_no'] !== notice['board_no']));
           }
         }}
       >

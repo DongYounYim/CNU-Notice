@@ -2,8 +2,7 @@ import * as React from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import { ChatTile } from '../../components';
 
-import { collection, getDocs } from 'firebase/firestore/lite';
-import { db } from '../../firebase';
+import { getMyNotices } from '../../api';
 
 const DummyData = [
   {
@@ -29,15 +28,8 @@ const DummyData = [
 export default function Chat({ navigation }) {
   const [boards, setBoards] = React.useState([]);
 
-  const getBoards = async () => {
-    const boardCol = collection(db, 'board');
-    const boardSnapshot = await getDocs(boardCol);
-    const boardList = boardSnapshot.docs.map(doc => doc.data());
-    setBoards(boardList);
-  };
-
   React.useEffect(() => {
-    getBoards();
+    getMyNotices(setBoards);
   }, []);
   return (
     <View>
