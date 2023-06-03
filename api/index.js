@@ -13,6 +13,18 @@ export const getAllNotices = async () => {
   }
 };
 
+export const getDetailNotice = async id => {
+  try {
+    const res = await fetch(
+      `https://api.cnu.ac.kr/svc/offcam/pub/homepageboardContents?P_board_no=${id}&AUTH_KEY=FE271E66B72843E2A6B0CFEBE06BC09DFE5534B2`,
+      { method: 'POST' },
+    );
+    console.log(await res.json());
+    return res.json();
+  } catch (e) {
+    console.error(e);
+  }
+};
 export const saveMyNotices = async noticeList => {
   try {
     await setDoc(doc(db, 'notice', 'myNotice'), { noticeList });

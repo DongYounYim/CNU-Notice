@@ -2,7 +2,7 @@ import * as React from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import { ChatTile } from '../../components';
 
-import { getMyNotices } from '../../api';
+import { getDetailNotice, getMyNotices } from '../../api';
 import { useFocusEffect } from '@react-navigation/native';
 
 const DummyData = [
@@ -27,7 +27,6 @@ const DummyData = [
 ];
 
 export default function Chat({ navigation }) {
-  const [boards, setBoards] = React.useState([]);
   const [myNotice, setMyNotice] = React.useState([]);
 
   useFocusEffect(
@@ -35,6 +34,7 @@ export default function Chat({ navigation }) {
       getMyNotices(setMyNotice);
     }, []),
   );
+  console.log(myNotice);
   return (
     <View>
       {myNotice.map(({ board_no, board_nm, site_nm }) => (
