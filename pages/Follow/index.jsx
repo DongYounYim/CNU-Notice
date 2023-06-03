@@ -12,7 +12,6 @@ export default function Follow() {
 
   const handdleAllNotice = async () => {
     const result = await getAllBoards();
-    console.log(result.RESULT);
     setAllNotice(result.RESULT);
   };
   React.useEffect(() => {
@@ -20,7 +19,6 @@ export default function Follow() {
     handdleAllNotice();
   }, []);
 
-  console.log(filteredNotice);
   return (
     <View style={{ flex: 1 }}>
       <View style={{ paddingHorizontal: '10px', maxHeight: 240 }}>
@@ -28,7 +26,7 @@ export default function Follow() {
         <ScrollView style={styles.scrollView}>
           {myNotice.map(notice => (
             <NoticeTile
-              notice={notice['site_nm']}
+              notice={notice}
               key={notice['board_no']}
               tail="minus"
               setMyNotice={setMyNotice}
@@ -48,12 +46,12 @@ export default function Follow() {
             {filteredNotice.map(notice => {
               let isInclude = false;
               myNotice.forEach(mNotice => {
-                if (mNotice['site_nm'] === notice['site_nm']) isInclude = true;
+                if (mNotice['board_no'] === notice['board_no']) isInclude = true;
               });
               const tail = isInclude ? 'minus' : 'plus';
               return (
                 <NoticeTile
-                  notice={notice['site_nm']}
+                  notice={notice}
                   key={notice['board_no']}
                   tail={tail}
                   setMyNotice={setMyNotice}
