@@ -32,6 +32,7 @@ export default function NoticeTr({ read, title, date, bookmark, isNew }) {
       </Text>
       <Text
         style={{
+          flex: 1,
           overflow: "hidden",
           textOverflow: "ellipsis",
           whiteSpace: "nowrap",
@@ -39,7 +40,7 @@ export default function NoticeTr({ read, title, date, bookmark, isNew }) {
       >
         {title}
       </Text>
-      <Text>22.06.04</Text>
+      <Text>{date}</Text>
     </View>
   );
 }

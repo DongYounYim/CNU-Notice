@@ -4,8 +4,30 @@ import { NoticeTr } from "../../components";
 import Icon from "react-native-vector-icons/AntDesign";
 import { TouchableOpacity } from "react-native-web";
 
+import { getDetailNotice } from "../../api";
+
+const lengthOneToTwo = (value) => {
+  return value.toString().length === 1 ? `0${value}` : value;
+};
+
 export default function ChatRoom({ route }) {
   const [text, onChangeText] = React.useState("");
+  const [allData, setAllData] = React.useState([]);
+
+  const getData = async () => {
+    const response = await getDetailNotice(route.params.board_no);
+    setAllData(response.RESULT);
+  };
+
+  React.useEffect(() => {
+    getData();
+  }, []);
+
+  // TODO: 페이지네이션
+  // TODO: 읽은 데이터 저장
+  // TODO: 오늘 날짜와 일치하는 것을 새로운 정보로 추가
+  // TODO: 북마크 기능 활성화
+  // TODO: 데이터 정렬 기능?
 
   return (
     <View style={styles.container}>
@@ -56,19 +78,42 @@ export default function ChatRoom({ route }) {
               textAlign: "right",
             }}
           >
-            1444중 1 - 20
+            {`${allData.length !== 0 ? allData.length : 0}중 1 - 20`}
           </Text>
-          <TouchableOpacity>{"<"}</TouchableOpacity>
-          <TouchableOpacity>{">"}</TouchableOpacity>
+          <TouchableOpacity>
+            <Text>{"<"}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Text>{">"}</Text>
+          </TouchableOpacity>
         </View>
       </View>
       <ScrollView style={styles.scrollView}>
+        {allData.length !== 0 &&
+          allData.map(({ article_no, article_title, update_dt }) => {
+            // timestamp to Date 변환
+            const article_date = new Date(update_dt.time);
+            const dateStringFormat = `${`${article_date.getFullYear()}`.slice(
+              2
+            )}.${lengthOneToTwo(article_date.getMonth() + 1)}.${lengthOneToTwo(
+              article_date.getDate()
+            )}`;
+            return (
+              <NoticeTr
+                key={article_no}
+                read={false}
+                title={article_title}
+                date={dateStringFormat}
+              />
+            );
+          })}
         <NoticeTr
           read={true}
           title="Lorem ipsum dolor sit amet consectetur adipisicing elit. In repellendus voluptas ipsam. In
           obcaecati exercitationem, nisi quod possimus ullam rem laborum perspiciatis repellat id
           asperiores sunt dolores nesciunt odio corporis?"
           isNew={true}
+          date="23.06.04"
         />
         <NoticeTr
           read={false}
@@ -76,6 +121,7 @@ export default function ChatRoom({ route }) {
           obcaecati exercitationem, nisi quod possimus ullam rem laborum perspiciatis repellat id
           asperiores sunt dolores nesciunt odio corporis?"
           isNew={true}
+          date="23.06.04"
         />
         <NoticeTr
           read={true}
@@ -83,18 +129,21 @@ export default function ChatRoom({ route }) {
           obcaecati exercitationem, nisi quod possimus ullam rem laborum perspiciatis repellat id
           asperiores sunt dolores nesciunt odio corporis?"
           isNew={true}
+          date="23.06.04"
         />
         <NoticeTr
           read={true}
           title="Lorem ipsum dolor sit amet consectetur adipisicing elit. In repellendus voluptas ipsam. In
           obcaecati exercitationem, nisi quod possimus ullam rem laborum perspiciatis repellat id
           asperiores sunt dolores nesciunt odio corporis?"
+          date="23.06.04"
         />
         <NoticeTr
           read={true}
           title="Lorem ipsum dolor sit amet consectetur adipisicing elit. In repellendus voluptas ipsam. In
           obcaecati exercitationem, nisi quod possimus ullam rem laborum perspiciatis repellat id
           asperiores sunt dolores nesciunt odio corporis?"
+          date="23.06.04"
         />
       </ScrollView>
     </View>
