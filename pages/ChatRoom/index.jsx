@@ -13,6 +13,12 @@ const lengthOneToTwo = (value) => {
 export default function ChatRoom({ route }) {
   const [text, onChangeText] = React.useState("");
   const [allData, setAllData] = React.useState([]);
+  const today = new Date();
+  const todayStringFormat = `${`${today.getFullYear()}`.slice(
+    2
+  )}.${lengthOneToTwo(today.getMonth() + 1)}.${lengthOneToTwo(
+    today.getDate()
+  )}`;
 
   const getData = async () => {
     const response = await getDetailNotice(route.params.board_no);
@@ -25,7 +31,6 @@ export default function ChatRoom({ route }) {
 
   // TODO: 페이지네이션
   // TODO: 읽은 데이터 저장
-  // TODO: 오늘 날짜와 일치하는 것을 새로운 정보로 추가
   // TODO: 북마크 기능 활성화
   // TODO: 데이터 정렬 기능?
 
@@ -102,6 +107,7 @@ export default function ChatRoom({ route }) {
               <NoticeTr
                 key={article_no}
                 read={false}
+                isNew={dateStringFormat === todayStringFormat}
                 title={article_title}
                 date={dateStringFormat}
               />
