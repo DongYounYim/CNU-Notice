@@ -1,6 +1,9 @@
+import React from "react";
+import { View } from "react-native-web";
+
 const Icon = ({ children }) => {
   return (
-    <div
+    <View
       style={{
         display: "inline-block",
         verticalAlign: "middle",
@@ -8,7 +11,7 @@ const Icon = ({ children }) => {
       }}
     >
       {children}
-    </div>
+    </View>
   );
 };
 
