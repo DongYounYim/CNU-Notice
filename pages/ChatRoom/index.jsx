@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet, ScrollView, TextInput } from "react-native";
-import { NoticeTr } from "../../components";
+import { NoticeTr, Spinner } from "../../components";
 import Icon from "react-native-vector-icons/AntDesign";
 import { TouchableOpacity } from "react-native-web";
 
@@ -89,7 +89,7 @@ export default function ChatRoom({ route }) {
         </View>
       </View>
       <ScrollView style={styles.scrollView}>
-        {allData.length !== 0 &&
+        {allData.length !== 0 ? (
           allData.map(({ article_no, article_title, update_dt }) => {
             // timestamp to Date 변환
             const article_date = new Date(update_dt.time);
@@ -106,45 +106,10 @@ export default function ChatRoom({ route }) {
                 date={dateStringFormat}
               />
             );
-          })}
-        <NoticeTr
-          read={true}
-          title="Lorem ipsum dolor sit amet consectetur adipisicing elit. In repellendus voluptas ipsam. In
-          obcaecati exercitationem, nisi quod possimus ullam rem laborum perspiciatis repellat id
-          asperiores sunt dolores nesciunt odio corporis?"
-          isNew={true}
-          date="23.06.04"
-        />
-        <NoticeTr
-          read={false}
-          title="Lorem ipsum dolor sit amet consectetur adipisicing elit. In repellendus voluptas ipsam. In
-          obcaecati exercitationem, nisi quod possimus ullam rem laborum perspiciatis repellat id
-          asperiores sunt dolores nesciunt odio corporis?"
-          isNew={true}
-          date="23.06.04"
-        />
-        <NoticeTr
-          read={true}
-          title="Lorem ipsum dolor sit amet consectetur adipisicing elit. In repellendus voluptas ipsam. In
-          obcaecati exercitationem, nisi quod possimus ullam rem laborum perspiciatis repellat id
-          asperiores sunt dolores nesciunt odio corporis?"
-          isNew={true}
-          date="23.06.04"
-        />
-        <NoticeTr
-          read={true}
-          title="Lorem ipsum dolor sit amet consectetur adipisicing elit. In repellendus voluptas ipsam. In
-          obcaecati exercitationem, nisi quod possimus ullam rem laborum perspiciatis repellat id
-          asperiores sunt dolores nesciunt odio corporis?"
-          date="23.06.04"
-        />
-        <NoticeTr
-          read={true}
-          title="Lorem ipsum dolor sit amet consectetur adipisicing elit. In repellendus voluptas ipsam. In
-          obcaecati exercitationem, nisi quod possimus ullam rem laborum perspiciatis repellat id
-          asperiores sunt dolores nesciunt odio corporis?"
-          date="23.06.04"
-        />
+          })
+        ) : (
+          <Spinner size={80} />
+        )}
       </ScrollView>
     </View>
   );
