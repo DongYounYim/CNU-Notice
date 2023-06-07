@@ -1,9 +1,9 @@
-import * as React from 'react';
-import { View, ScrollView, StyleSheet } from 'react-native';
-import { HorizonLine, Spinner } from '../../components';
-import NoticeTile from '../../components/NoticeTile';
-import SearchBar from '../../components/SearchBar';
-import { getAllNotices, getMyNotices, saveMyNotices } from '../../api';
+import * as React from "react";
+import { View, ScrollView, StyleSheet } from "react-native";
+import { HorizonLine, Spinner } from "../../components";
+import NoticeTile from "../../components/NoticeTile";
+import SearchBar from "../../components/SearchBar";
+import { getAllNotices, getMyNotices } from "../../api";
 
 export default function Follow({ navigation: { setParams } }) {
   const [myNotice, setMyNotice] = React.useState([]);
@@ -27,13 +27,13 @@ export default function Follow({ navigation: { setParams } }) {
 
   return (
     <View style={{ flex: 1 }}>
-      <View style={{ paddingHorizontal: '10px', maxHeight: 240 }}>
+      <View style={{ paddingHorizontal: "10px", maxHeight: 240 }}>
         <h4>나의 공지사항</h4>
         <ScrollView style={styles.scrollView}>
-          {myNotice.map(notice => (
+          {myNotice.map((notice) => (
             <NoticeTile
               notice={notice}
-              key={notice['board_no']}
+              key={notice["board_no"]}
               tail="minus"
               setMyNotice={setMyNotice}
             />
@@ -43,25 +43,29 @@ export default function Follow({ navigation: { setParams } }) {
 
       <HorizonLine />
 
-      <View style={{ paddingHorizontal: '10px' }}>
+      <View style={{ paddingHorizontal: "10px" }}>
         <h4>전체 공지사항</h4>
         <View style={{ height: 40 }}>
-          <SearchBar allNotice={allNotice} setFilteredNotice={setFilteredNotice} />
+          <SearchBar
+            allNotice={allNotice}
+            setFilteredNotice={setFilteredNotice}
+          />
         </View>
 
         {filteredNotice.length ? (
           <View style={{ maxHeight: 320 }}>
             <ScrollView style={styles.scrollView}>
-              {filteredNotice.map(notice => {
+              {filteredNotice.map((notice) => {
                 let isInclude = false;
-                myNotice.forEach(mNotice => {
-                  if (mNotice['board_no'] === notice['board_no']) isInclude = true;
+                myNotice.forEach((mNotice) => {
+                  if (mNotice["board_no"] === notice["board_no"])
+                    isInclude = true;
                 });
-                const tail = isInclude ? 'minus' : 'plus';
+                const tail = isInclude ? "minus" : "plus";
                 return (
                   <NoticeTile
                     notice={notice}
-                    key={notice['board_no']}
+                    key={notice["board_no"]}
                     tail={tail}
                     setMyNotice={setMyNotice}
                   />
@@ -79,6 +83,6 @@ export default function Follow({ navigation: { setParams } }) {
 
 const styles = StyleSheet.create({
   scrollView: {
-    width: '100%',
+    width: "100%",
   },
 });
