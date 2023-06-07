@@ -24,7 +24,7 @@ export default function Follow({ navigation: { setParams } }) {
   React.useEffect(() => {
     setParams({ myNotice });
   }, [myNotice]);
-  console.log(filteredNotice);
+
   return (
     <View style={{ flex: 1 }}>
       <View style={{ paddingHorizontal: '10px', maxHeight: 240 }}>
@@ -45,7 +45,9 @@ export default function Follow({ navigation: { setParams } }) {
 
       <View style={{ paddingHorizontal: '10px' }}>
         <h4>전체 공지사항</h4>
-        <SearchBar allNotice={allNotice} setFilteredNotice={setFilteredNotice} />
+        <View style={{ height: 40 }}>
+          <SearchBar allNotice={allNotice} setFilteredNotice={setFilteredNotice} />
+        </View>
 
         {filteredNotice.length ? (
           <View style={{ maxHeight: 320 }}>
