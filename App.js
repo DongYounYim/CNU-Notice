@@ -10,6 +10,7 @@ import Follow from "./pages/Follow";
 import ChatRoom from "./pages/ChatRoom";
 import { TouchableOpacity, Pressable } from "react-native";
 import { saveMyNotices } from "./api";
+import Detail from "./pages/Detail";
 
 const Stack = createNativeStackNavigator();
 
@@ -88,6 +89,35 @@ export default function App() {
         <Stack.Screen
           name="ChatRoom"
           component={ChatRoom}
+          options={({ navigation, route }) => ({
+            headerTitle: () => (
+              <View>
+                <Text
+                  style={{
+                    fontSize: 18,
+                    fontWeight: "bold",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {route.params.title}
+                </Text>
+              </View>
+            ),
+            headerLeft: () => (
+              <TouchableOpacity
+                style={{ paddingLeft: "8px" }}
+                onPress={() => navigation.pop()}
+              >
+                <Icon name="arrow-back" size={30} />
+              </TouchableOpacity>
+            ),
+          })}
+        />
+        <Stack.Screen
+          name="Detail"
+          component={Detail}
           options={({ navigation, route }) => ({
             headerTitle: () => (
               <View>

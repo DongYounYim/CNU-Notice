@@ -1,24 +1,26 @@
-import React from 'react';
-import { View, Text, StyleSheet, ScrollView, TextInput } from 'react-native';
-import { NoticeTr, Spinner } from '../../components';
-import Icon from 'react-native-vector-icons/AntDesign';
-import { TouchableOpacity } from 'react-native-web';
+import React from "react";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { NoticeTr, Spinner } from "../../components";
+import { AntDesign } from "@expo/vector-icons";
+import { TouchableOpacity } from "react-native-web";
 
-import { getDetailNotice } from '../../api';
-import SearchBar from '../../components/SearchBar';
+import { getDetailNotice } from "../../api";
+import SearchBar from "../../components/SearchBar";
 
-const lengthOneToTwo = value => {
+const lengthOneToTwo = (value) => {
   return value.toString().length === 1 ? `0${value}` : value;
 };
 
-export default function ChatRoom({ route }) {
+export default function ChatRoom({ route, navigation }) {
   const [allData, setAllData] = React.useState([]);
   const [filteredData, setFilteredData] = React.useState(allData);
 
   const today = new Date();
-  const todayStringFormat = `${`${today.getFullYear()}`.slice(2)}.${lengthOneToTwo(
-    today.getMonth() + 1,
-  )}.${lengthOneToTwo(today.getDate())}`;
+  const todayStringFormat = `${`${today.getFullYear()}`.slice(
+    2
+  )}.${lengthOneToTwo(today.getMonth() + 1)}.${lengthOneToTwo(
+    today.getDate()
+  )}`;
 
   const getData = async () => {
     const response = await getDetailNotice(route.params.board_no);
@@ -32,84 +34,97 @@ export default function ChatRoom({ route }) {
   // TODO: 페이지네이션
   // TODO: 읽은 데이터 저장
   // TODO: 북마크 기능 활성화
-  // TODO: 데이터 정렬 기능?
+  // TODO: 오늘 올라온 공지 갯수 세기
 
   return (
     <View style={styles.container}>
       <View style={styles.serachBar}>
-        <SearchBar allNotice={allData} setFilteredNotice={setFilteredData} isChatRoom={true} />
-        {/* <TextInput
-          style={{
-            height: 30,
-            width: '90%',
-            fontSize: '16px',
-            backgroundColor: '#EEECE8',
-            padding: '8px',
-          }}
-          placeholder="공지 검색을 해보세요"
+        <SearchBar
+          allNotice={allData}
+          setFilteredNotice={setFilteredData}
+          isChatRoom={true}
         />
-        <Icon name="search1" size={25} /> */}
       </View>
       <View
         style={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          padding: '8px',
-          width: '100%',
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          padding: "8px",
+          width: "100%",
         }}
       >
         <Text
           style={{
-            fontSize: '1rem',
-            textAlign: 'left',
-            fontWeight: '600',
+            fontSize: "1rem",
+            textAlign: "left",
+            fontWeight: "600",
           }}
         >
           오늘 올라온 공지 3 건
         </Text>
         <View
           style={{
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            gap: '8px',
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            gap: "8px",
           }}
         >
           <Text
             style={{
-              fontSize: '0.5rem',
-              textAlign: 'right',
+              fontSize: "0.8rem",
+              textAlign: "right",
             }}
           >
             {`${filteredData.length !== 0 ? filteredData.length : 0}중 1 - 20`}
           </Text>
           <TouchableOpacity>
-            <Text>{'<'}</Text>
+            <AntDesign name="left" size={20} color="black" />
           </TouchableOpacity>
           <TouchableOpacity>
-            <Text>{'>'}</Text>
+            <AntDesign name="right" size={20} color="black" />
           </TouchableOpacity>
         </View>
       </View>
       <ScrollView style={styles.scrollView}>
         {filteredData.length !== 0 ? (
-          filteredData.map(({ article_no, article_title, update_dt }) => {
-            // timestamp to Date 변환
-            const article_date = new Date(update_dt.time);
-            const dateStringFormat = `${`${article_date.getFullYear()}`.slice(2)}.${lengthOneToTwo(
-              article_date.getMonth() + 1,
-            )}.${lengthOneToTwo(article_date.getDate())}`;
-            return (
-              <NoticeTr
-                key={article_no}
-                read={false}
-                isNew={dateStringFormat === todayStringFormat}
-                title={article_title}
-                date={dateStringFormat}
-              />
-            );
-          })
+          filteredData.map(
+            ({
+              article_no,
+              article_title,
+              article_text,
+              writer_nm,
+              update_dt,
+            }) => {
+              // timestamp to Date 변환
+              const article_date = new Date(update_dt.time);
+              const dateStringFormat = `${`${article_date.getFullYear()}`.slice(
+                2
+              )}.${lengthOneToTwo(
+                article_date.getMonth() + 1
+              )}.${lengthOneToTwo(article_date.getDate())}`;
+              return (
+                <TouchableOpacity
+                  key={article_no}
+                  onPress={() =>
+                    navigation.navigate("Detail", {
+                      title: article_title,
+                      content: article_text,
+                      writer: writer_nm,
+                    })
+                  }
+                >
+                  <NoticeTr
+                    read={false}
+                    isNew={dateStringFormat === todayStringFormat}
+                    title={article_title}
+                    date={dateStringFormat}
+                  />
+                </TouchableOpacity>
+              );
+            }
+          )
         ) : (
           <Spinner size={80} />
         )}
@@ -119,25 +134,25 @@ export default function ChatRoom({ route }) {
 }
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
-    height: '90vh',
-    backgroundColor: '#B4C5DE',
-    alignItems: 'center',
+    width: "100%",
+    height: "90vh",
+    backgroundColor: "#B4C5DE",
+    alignItems: "center",
   },
   scrollView: {
-    width: '100%',
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
+    width: "100%",
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
   },
   serachBar: {
-    width: '100%',
-    height: '7%',
-    backgroundColor: 'white',
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    width: "100%",
+    height: "7%",
+    backgroundColor: "white",
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     height: 40,
     padding: 8,
   },
