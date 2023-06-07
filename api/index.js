@@ -1,5 +1,12 @@
 import { db } from "../firebase";
-import { collection, doc, getDocs, setDoc } from "firebase/firestore/lite";
+import {
+  arrayUnion,
+  collection,
+  doc,
+  getDocs,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore/lite";
 
 export const getAllNotices = async () => {
   try {
@@ -37,6 +44,52 @@ export const getMyNotices = async (setState) => {
     const noticeCol = collection(db, "notice");
     const noticeSnapshot = await getDocs(noticeCol);
     setState(noticeSnapshot.docs[0].data().noticeList);
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+export const getBookMarks = async (board_no) => {
+  try {
+    const bookmarkCol = collection(db, "bookmarks");
+    const snapshot = await getDocs(bookmarkCol);
+    return snapshot.docs[0].data()[board_no];
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+export const saveBookMarks = async (board_no, article_no) => {
+  try {
+    const bookmarkRef = doc(db, "bookmarks", "myBookmarks");
+    await updateDoc(bookmarkRef, { [board_no]: arrayUnion(article_no) });
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+export const DeleteBookMarks = async (board_no, article_no) => {
+  try {
+    const bookmarkRef = doc(db, "bookmarks", "myBookmarks");
+    const existArr = await getBookMarks(board_no);
+    const updateArr = existArr.filter((data) => data !== article_no);
+    await updateDoc(bookmarkRef, {
+      [board_no]: updateArr,
+    });
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+export const setReadNotice = async (board_no, article_no) => {
+  try {
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+export const getReadNotice = async (board_no) => {
+  try {
   } catch (e) {
     console.error(e);
   }

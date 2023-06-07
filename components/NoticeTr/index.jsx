@@ -1,9 +1,32 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text } from "react-native";
 
 import Bookmark from "react-native-vector-icons/FontAwesome";
+import { TouchableOpacity } from "react-native-web";
+import { DeleteBookMarks, saveBookMarks } from "../../api";
 
-export default function NoticeTr({ read, title, date, bookmark, isNew }) {
+export default function NoticeTr({
+  board_no,
+  article_no,
+  read,
+  title,
+  date,
+  bookmark,
+  isNew,
+}) {
+  const [isBookmarked, setIsBookmarked] = React.useState(bookmark);
+  const handleBookmark = async () => {
+    if (isBookmarked) {
+      await DeleteBookMarks(board_no, article_no);
+    } else {
+      await saveBookMarks(board_no, article_no);
+    }
+    setIsBookmarked((state) => !state);
+  };
+
+  React.useEffect(() => {
+    setIsBookmarked(bookmark);
+  }, [bookmark]);
   return (
     <View
       style={{
@@ -16,7 +39,9 @@ export default function NoticeTr({ read, title, date, bookmark, isNew }) {
         backgroundColor: read ? "#BDBDBD" : "none",
       }}
     >
-      <Bookmark name={bookmark ? "bookmark" : "bookmark-o"} size={20} />
+      <TouchableOpacity onPress={handleBookmark}>
+        <Bookmark name={isBookmarked ? "bookmark" : "bookmark-o"} size={20} />
+      </TouchableOpacity>
       <Text
         style={{
           backgroundColor: "orange",

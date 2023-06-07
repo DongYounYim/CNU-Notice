@@ -4,7 +4,7 @@ import { NoticeTr, Spinner } from "../../components";
 import { AntDesign } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-web";
 
-import { getDetailNotice } from "../../api";
+import { getBookMarks, getDetailNotice } from "../../api";
 import SearchBar from "../../components/SearchBar";
 
 const lengthOneToTwo = (value) => {
@@ -14,6 +14,7 @@ const lengthOneToTwo = (value) => {
 export default function ChatRoom({ route, navigation }) {
   const [allData, setAllData] = React.useState([]);
   const [filteredData, setFilteredData] = React.useState(allData);
+  const [bookmarked, setBookmarked] = React.useState([]);
 
   const today = new Date();
   const todayStringFormat = `${`${today.getFullYear()}`.slice(
@@ -25,6 +26,8 @@ export default function ChatRoom({ route, navigation }) {
   const getData = async () => {
     const response = await getDetailNotice(route.params.board_no);
     setAllData(response.RESULT);
+    const bookmarkedData = await getBookMarks(route.params.board_no);
+    setBookmarked(bookmarkedData === undefined ? [] : bookmarkedData);
   };
 
   React.useEffect(() => {
@@ -33,7 +36,6 @@ export default function ChatRoom({ route, navigation }) {
 
   // TODO: 페이지네이션
   // TODO: 읽은 데이터 저장
-  // TODO: 북마크 기능 활성화
   // TODO: 오늘 올라온 공지 갯수 세기
 
   return (
@@ -116,9 +118,12 @@ export default function ChatRoom({ route, navigation }) {
                   }
                 >
                   <NoticeTr
+                    board_no={route.params.board_no}
+                    article_no={article_no}
                     read={false}
                     isNew={dateStringFormat === todayStringFormat}
                     title={article_title}
+                    bookmark={bookmarked.includes(article_no)}
                     date={dateStringFormat}
                   />
                 </TouchableOpacity>
