@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { View, ScrollView, StyleSheet } from 'react-native';
-import { HorizonLine } from '../../components';
+import { HorizonLine, Spinner } from '../../components';
 import NoticeTile from '../../components/NoticeTile';
 import SearchBar from '../../components/SearchBar';
 import { getAllNotices, getMyNotices, saveMyNotices } from '../../api';
@@ -24,6 +24,7 @@ export default function Follow({ navigation: { setParams } }) {
   React.useEffect(() => {
     setParams({ myNotice });
   }, [myNotice]);
+  console.log(filteredNotice);
   return (
     <View style={{ flex: 1 }}>
       <View style={{ paddingHorizontal: '10px', maxHeight: 240 }}>
@@ -46,25 +47,29 @@ export default function Follow({ navigation: { setParams } }) {
         <h4>전체 공지사항</h4>
         <SearchBar allNotice={allNotice} setFilteredNotice={setFilteredNotice} />
 
-        <View style={{ maxHeight: 320 }}>
-          <ScrollView style={styles.scrollView}>
-            {filteredNotice.map(notice => {
-              let isInclude = false;
-              myNotice.forEach(mNotice => {
-                if (mNotice['board_no'] === notice['board_no']) isInclude = true;
-              });
-              const tail = isInclude ? 'minus' : 'plus';
-              return (
-                <NoticeTile
-                  notice={notice}
-                  key={notice['board_no']}
-                  tail={tail}
-                  setMyNotice={setMyNotice}
-                />
-              );
-            })}
-          </ScrollView>
-        </View>
+        {filteredNotice.length ? (
+          <View style={{ maxHeight: 320 }}>
+            <ScrollView style={styles.scrollView}>
+              {filteredNotice.map(notice => {
+                let isInclude = false;
+                myNotice.forEach(mNotice => {
+                  if (mNotice['board_no'] === notice['board_no']) isInclude = true;
+                });
+                const tail = isInclude ? 'minus' : 'plus';
+                return (
+                  <NoticeTile
+                    notice={notice}
+                    key={notice['board_no']}
+                    tail={tail}
+                    setMyNotice={setMyNotice}
+                  />
+                );
+              })}
+            </ScrollView>
+          </View>
+        ) : (
+          <Spinner size={80} />
+        )}
       </View>
     </View>
   );
