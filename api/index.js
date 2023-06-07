@@ -68,7 +68,7 @@ export const saveBookMarks = async (board_no, article_no) => {
   }
 };
 
-export const DeleteBookMarks = async (board_no, article_no) => {
+export const deleteBookMarks = async (board_no, article_no) => {
   try {
     const bookmarkRef = doc(db, "bookmarks", "myBookmarks");
     const existArr = await getBookMarks(board_no);

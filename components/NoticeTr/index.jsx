@@ -3,7 +3,7 @@ import { View, Text } from "react-native";
 
 import Bookmark from "react-native-vector-icons/FontAwesome";
 import { TouchableOpacity } from "react-native-web";
-import { DeleteBookMarks, saveBookMarks } from "../../api";
+import { deleteBookMarks, saveBookMarks } from "../../api";
 
 export default function NoticeTr({
   board_no,
@@ -17,7 +17,7 @@ export default function NoticeTr({
   const [isBookmarked, setIsBookmarked] = React.useState(bookmark);
   const handleBookmark = async () => {
     if (isBookmarked) {
-      await DeleteBookMarks(board_no, article_no);
+      await deleteBookMarks(board_no, article_no);
     } else {
       await saveBookMarks(board_no, article_no);
     }
