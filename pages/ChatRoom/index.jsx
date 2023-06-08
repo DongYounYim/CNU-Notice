@@ -4,7 +4,12 @@ import { NoticeTr, Spinner } from "../../components";
 import { AntDesign } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-web";
 
-import { getBookMarks, getDetailNotice } from "../../api";
+import {
+  getBookMarks,
+  getDetailNotice,
+  getReadNotice,
+  setReadNotice,
+} from "../../api";
 import SearchBar from "../../components/SearchBar";
 
 const lengthOneToTwo = (value) => {
@@ -14,6 +19,7 @@ const lengthOneToTwo = (value) => {
 export default function ChatRoom({ route, navigation }) {
   const [allData, setAllData] = React.useState([]);
   const [filteredData, setFilteredData] = React.useState(allData);
+  const [read, setRead] = React.useState([]);
   const [bookmarked, setBookmarked] = React.useState([]);
   const [todayNotice, setTodayNotice] = React.useState(0);
 
@@ -25,6 +31,7 @@ export default function ChatRoom({ route, navigation }) {
   )}`;
 
   const getData = async () => {
+    // 공지 불러오기
     const response = await getDetailNotice(route.params.board_no);
     setAllData(response.RESULT);
     const data = response.RESULT;
@@ -38,8 +45,27 @@ export default function ChatRoom({ route, navigation }) {
       return dateStringFormat === todayStringFormat;
     });
     setTodayNotice(todayArticle.length);
+    // 읽은 공지 데이터 불러오기
+    const readData = await getReadNotice(route.params.board_no);
+    setRead(readData);
+    // 북마크 해둔 데이터 불러오기
     const bookmarkedData = await getBookMarks(route.params.board_no);
     setBookmarked(bookmarkedData === undefined ? [] : bookmarkedData);
+  };
+
+  const handleGoDetail = async (
+    article_no,
+    article_title,
+    article_text,
+    writer_nm
+  ) => {
+    await setReadNotice(route.params.board_no, article_no);
+    setRead((state) => [...state, article_no]);
+    navigation.navigate("Detail", {
+      title: article_title,
+      content: article_text,
+      writer: writer_nm,
+    });
   };
 
   React.useEffect(() => {
@@ -47,7 +73,6 @@ export default function ChatRoom({ route, navigation }) {
   }, []);
 
   // TODO: 페이지네이션
-  // TODO: 읽은 데이터 저장
 
   return (
     <View style={styles.container}>
@@ -121,17 +146,18 @@ export default function ChatRoom({ route, navigation }) {
                 <TouchableOpacity
                   key={article_no}
                   onPress={() =>
-                    navigation.navigate("Detail", {
-                      title: article_title,
-                      content: article_text,
-                      writer: writer_nm,
-                    })
+                    handleGoDetail(
+                      article_no,
+                      article_title,
+                      article_text,
+                      writer_nm
+                    )
                   }
                 >
                   <NoticeTr
                     board_no={route.params.board_no}
                     article_no={article_no}
-                    read={false}
+                    read={read.includes(article_no)}
                     isNew={dateStringFormat === todayStringFormat}
                     title={article_title}
                     bookmark={bookmarked.includes(article_no)}

@@ -83,6 +83,8 @@ export const deleteBookMarks = async (board_no, article_no) => {
 
 export const setReadNotice = async (board_no, article_no) => {
   try {
+    const readRef = doc(db, "read", "myRead");
+    await updateDoc(readRef, { [board_no]: arrayUnion(article_no) });
   } catch (e) {
     console.error(e);
   }
@@ -90,6 +92,9 @@ export const setReadNotice = async (board_no, article_no) => {
 
 export const getReadNotice = async (board_no) => {
   try {
+    const readCol = collection(db, "read");
+    const snapshot = await getDocs(readCol);
+    return snapshot.docs[0].data()[board_no];
   } catch (e) {
     console.error(e);
   }

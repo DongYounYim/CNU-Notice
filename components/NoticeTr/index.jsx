@@ -14,6 +14,7 @@ export default function NoticeTr({
   bookmark,
   isNew,
 }) {
+  const [isRead, setIsRead] = React.useState(read);
   const [isBookmarked, setIsBookmarked] = React.useState(bookmark);
   const handleBookmark = async () => {
     if (isBookmarked) {
@@ -27,6 +28,10 @@ export default function NoticeTr({
   React.useEffect(() => {
     setIsBookmarked(bookmark);
   }, [bookmark]);
+
+  React.useEffect(() => {
+    setIsRead(read);
+  }, [read]);
   return (
     <View
       style={{
@@ -36,7 +41,7 @@ export default function NoticeTr({
         alignItems: "center",
         gap: "6px",
         padding: "8px",
-        backgroundColor: read ? "#BDBDBD" : "none",
+        backgroundColor: isRead ? "#BDBDBD" : "none",
       }}
     >
       <TouchableOpacity onPress={handleBookmark}>
