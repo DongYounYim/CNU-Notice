@@ -23,6 +23,10 @@ export default function ChatRoom({ route, navigation }) {
   const [bookmarked, setBookmarked] = React.useState([]);
   const [todayNotice, setTodayNotice] = React.useState(0);
 
+  //page
+  const [start, setStart] = React.useState(0);
+  const [end, setEnd] = React.useState(0);
+
   const today = new Date();
   const todayStringFormat = `${`${today.getFullYear()}`.slice(
     2
@@ -47,7 +51,7 @@ export default function ChatRoom({ route, navigation }) {
     setTodayNotice(todayArticle.length);
     // 읽은 공지 데이터 불러오기
     const readData = await getReadNotice(route.params.board_no);
-    setRead(readData);
+    setRead(readData === undefined ? [] : readData);
     // 북마크 해둔 데이터 불러오기
     const bookmarkedData = await getBookMarks(route.params.board_no);
     setBookmarked(bookmarkedData === undefined ? [] : bookmarkedData);
@@ -72,7 +76,10 @@ export default function ChatRoom({ route, navigation }) {
     getData();
   }, []);
 
-  // TODO: 페이지네이션
+  React.useEffect(() => {
+    setStart(0);
+    setEnd(filteredData.length < 20 ? filteredData.length : 20);
+  }, [filteredData]);
 
   return (
     <View style={styles.container}>
@@ -115,58 +122,76 @@ export default function ChatRoom({ route, navigation }) {
               textAlign: "right",
             }}
           >
-            {`${filteredData.length !== 0 ? filteredData.length : 0}중 1 - 20`}
+            {`${filteredData.length !== 0 ? filteredData.length : 0}중 ${
+              start + 1
+            } - ${end}`}
           </Text>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              if (start > 0) {
+                setStart((state) => state - 20);
+                setEnd((state) => state - 20);
+              }
+            }}
+          >
             <AntDesign name="left" size={20} color="black" />
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              if (end < filteredData.length) {
+                setStart((state) => state + 20);
+                setEnd((state) => state + 20);
+              }
+            }}
+          >
             <AntDesign name="right" size={20} color="black" />
           </TouchableOpacity>
         </View>
       </View>
       <ScrollView style={styles.scrollView}>
         {filteredData.length !== 0 ? (
-          filteredData.map(
-            ({
-              article_no,
-              article_title,
-              article_text,
-              writer_nm,
-              update_dt,
-            }) => {
-              // timestamp to Date 변환
-              const article_date = new Date(update_dt.time);
-              const dateStringFormat = `${`${article_date.getFullYear()}`.slice(
-                2
-              )}.${lengthOneToTwo(
-                article_date.getMonth() + 1
-              )}.${lengthOneToTwo(article_date.getDate())}`;
-              return (
-                <TouchableOpacity
-                  key={article_no}
-                  onPress={() =>
-                    handleGoDetail(
-                      article_no,
-                      article_title,
-                      article_text,
-                      writer_nm
-                    )
-                  }
-                >
-                  <NoticeTr
-                    board_no={route.params.board_no}
-                    article_no={article_no}
-                    read={read.includes(article_no)}
-                    isNew={dateStringFormat === todayStringFormat}
-                    title={article_title}
-                    bookmark={bookmarked.includes(article_no)}
-                    date={dateStringFormat}
-                  />
-                </TouchableOpacity>
-              );
-            }
-          )
+          filteredData
+            .slice(start, end)
+            .map(
+              ({
+                article_no,
+                article_title,
+                article_text,
+                writer_nm,
+                update_dt,
+              }) => {
+                // timestamp to Date 변환
+                const article_date = new Date(update_dt.time);
+                const dateStringFormat = `${`${article_date.getFullYear()}`.slice(
+                  2
+                )}.${lengthOneToTwo(
+                  article_date.getMonth() + 1
+                )}.${lengthOneToTwo(article_date.getDate())}`;
+                return (
+                  <TouchableOpacity
+                    key={article_no}
+                    onPress={() =>
+                      handleGoDetail(
+                        article_no,
+                        article_title,
+                        article_text,
+                        writer_nm
+                      )
+                    }
+                  >
+                    <NoticeTr
+                      board_no={route.params.board_no}
+                      article_no={article_no}
+                      read={read.includes(article_no)}
+                      isNew={dateStringFormat === todayStringFormat}
+                      title={article_title}
+                      bookmark={bookmarked.includes(article_no)}
+                      date={dateStringFormat}
+                    />
+                  </TouchableOpacity>
+                );
+              }
+            )
         ) : (
           <Spinner size={80} />
         )}
