@@ -15,6 +15,7 @@ export default function ChatRoom({ route, navigation }) {
   const [allData, setAllData] = React.useState([]);
   const [filteredData, setFilteredData] = React.useState(allData);
   const [bookmarked, setBookmarked] = React.useState([]);
+  const [todayNotice, setTodayNotice] = React.useState(0);
 
   const today = new Date();
   const todayStringFormat = `${`${today.getFullYear()}`.slice(
@@ -26,6 +27,17 @@ export default function ChatRoom({ route, navigation }) {
   const getData = async () => {
     const response = await getDetailNotice(route.params.board_no);
     setAllData(response.RESULT);
+    const data = response.RESULT;
+    const todayArticle = data.filter(({ update_dt }) => {
+      const article_date = new Date(update_dt.time);
+      const dateStringFormat = `${`${article_date.getFullYear()}`.slice(
+        2
+      )}.${lengthOneToTwo(article_date.getMonth() + 1)}.${lengthOneToTwo(
+        article_date.getDate()
+      )}`;
+      return dateStringFormat === todayStringFormat;
+    });
+    setTodayNotice(todayArticle.length);
     const bookmarkedData = await getBookMarks(route.params.board_no);
     setBookmarked(bookmarkedData === undefined ? [] : bookmarkedData);
   };
@@ -36,7 +48,6 @@ export default function ChatRoom({ route, navigation }) {
 
   // TODO: 페이지네이션
   // TODO: 읽은 데이터 저장
-  // TODO: 오늘 올라온 공지 갯수 세기
 
   return (
     <View style={styles.container}>
@@ -63,7 +74,7 @@ export default function ChatRoom({ route, navigation }) {
             fontWeight: "600",
           }}
         >
-          오늘 올라온 공지 3 건
+          오늘 올라온 공지 {todayNotice} 건
         </Text>
         <View
           style={{
