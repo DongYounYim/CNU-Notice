@@ -40,8 +40,9 @@ export default function NoticeTr({
         width: "100%",
         alignItems: "center",
         gap: "6px",
-        padding: "8px",
-        backgroundColor: isRead ? "#BDBDBD" : "none",
+        paddingHorizontal: "16px",
+        paddingVertical: "8px",
+        backgroundColor: isRead ? "#DFE4EC" : "none",
       }}
     >
       <TouchableOpacity onPress={handleBookmark}>
@@ -66,6 +67,7 @@ export default function NoticeTr({
           overflow: "hidden",
           textOverflow: "ellipsis",
           whiteSpace: "nowrap",
+          color: isRead && "#909090",
         }}
       >
         {title}
