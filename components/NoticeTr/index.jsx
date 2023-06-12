@@ -1,8 +1,8 @@
-import React from "react";
+import * as React from "react";
 import { View, Text } from "react-native";
 
 import Bookmark from "react-native-vector-icons/FontAwesome";
-import { TouchableOpacity } from "react-native-web";
+import { TouchableOpacity } from "react-native";
 import { deleteBookMarks, saveBookMarks } from "../../api";
 
 export default function NoticeTr({
@@ -39,9 +39,9 @@ export default function NoticeTr({
         flexDirection: "row",
         width: "100%",
         alignItems: "center",
-        gap: "6px",
-        paddingHorizontal: "16px",
-        paddingVertical: "8px",
+        gap: 6,
+        paddingHorizontal: 16,
+        paddingVertical: 8,
         backgroundColor: isRead ? "#DFE4EC" : "none",
       }}
     >
@@ -51,11 +51,11 @@ export default function NoticeTr({
       <Text
         style={{
           backgroundColor: "orange",
-          padding: "4px",
-          borderRadius: "10px",
+          padding: 4,
+          borderRadius: 10,
           color: "white",
           fontWeight: "600",
-          fontSize: "0.5rem",
+          fontSize: 8,
           visibility: isNew ? "visible" : "hidden",
         }}
       >

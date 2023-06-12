@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, ScrollView, StyleSheet } from "react-native";
+import { View, ScrollView, StyleSheet, Text } from "react-native";
 import { HorizonLine, Spinner } from "../../components";
 import NoticeTile from "../../components/NoticeTile";
 import SearchBar from "../../components/SearchBar";
@@ -27,8 +27,16 @@ export default function Follow({ navigation: { setParams } }) {
 
   return (
     <View style={{ flex: 1 }}>
-      <View style={{ paddingHorizontal: "10px", maxHeight: 240 }}>
-        <h4>나의 공지사항</h4>
+      <View style={{ paddingHorizontal: 10, maxHeight: 240 }}>
+        <Text
+          style={{
+            marginVertical: "1.33em",
+            fontWeight: "bold",
+            fontSize: "16px",
+          }}
+        >
+          나의 공지사항
+        </Text>
         <ScrollView style={styles.scrollView}>
           {myNotice.map((notice) => (
             <NoticeTile
@@ -43,8 +51,16 @@ export default function Follow({ navigation: { setParams } }) {
 
       <HorizonLine />
 
-      <View style={{ paddingHorizontal: "10px" }}>
-        <h4>전체 공지사항</h4>
+      <View style={{ paddingHorizontal: 10 }}>
+        <Text
+          style={{
+            marginVertical: "1.33em",
+            fontWeight: "bold",
+            fontSize: "16px",
+          }}
+        >
+          전체 공지사항
+        </Text>
         <View style={{ height: 40 }}>
           <SearchBar
             allNotice={allNotice}

@@ -1,4 +1,6 @@
+import * as React from "react";
 import Icon from "./Icon";
+import SVG, { Path, G, Circle } from "react-native-svg";
 
 const Spinner = ({
   size = 24,
@@ -12,14 +14,14 @@ const Spinner = ({
   };
   return loading ? (
     <Icon>
-      <svg
+      <SVG
         viewBox="0 0 38 38"
         xmlns="https://www.w3.org/2000/svg"
         style={sizeStyle}
       >
-        <g fill="none" fillRule="evenodd">
-          <g transform="translate(1 1)">
-            <path
+        <G fill="none" fillRule="evenodd">
+          <G transform="translate(1 1)">
+            <Path
               d="M36 18c0-9.94-8.06-18-18-18"
               stroke={color}
               strokeWidth="2"
@@ -32,8 +34,8 @@ const Spinner = ({
                 dur="0.9s"
                 repeatCount="indefinite"
               />
-            </path>
-            <circle fill={color} cx="36" cy="18" r="1">
+            </Path>
+            <Circle fill={color} cx="36" cy="18" r="1">
               <animateTransform
                 attributeName="transform"
                 type="rotate"
@@ -42,10 +44,10 @@ const Spinner = ({
                 dur="0.9s"
                 repeatCount="indefinite"
               />
-            </circle>
-          </g>
-        </g>
-      </svg>
+            </Circle>
+          </G>
+        </G>
+      </SVG>
     </Icon>
   ) : null;
 };

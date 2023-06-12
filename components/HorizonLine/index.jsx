@@ -1,15 +1,16 @@
-import React from 'react';
+import * as React from "react";
+import { View } from "react-native";
 
 const HorizonLine = ({ text }) => {
   return (
-    <div
+    <View
       style={{
-        width: '100%',
-        textAlign: 'center',
-        borderBottom: '1px solid lightgray',
-        lineHeight: '0.1em',
+        width: "100%",
+        textAlign: "center",
+        borderBottom: "1px solid lightgray",
+        lineHeight: "0.1em",
       }}
-    ></div>
+    ></View>
   );
 };
 

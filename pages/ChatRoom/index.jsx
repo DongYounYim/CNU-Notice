@@ -1,8 +1,8 @@
-import React from "react";
+import * as React from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { NoticeTr, Spinner } from "../../components";
 import { AntDesign } from "@expo/vector-icons";
-import { TouchableOpacity } from "react-native-web";
+import { TouchableOpacity } from "react-native";
 
 import {
   getBookMarks,
@@ -95,13 +95,13 @@ export default function ChatRoom({ route, navigation }) {
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-between",
-          padding: "8px",
+          padding: 8,
           width: "100%",
         }}
       >
         <Text
           style={{
-            fontSize: "1rem",
+            fontSize: 16,
             textAlign: "left",
             fontWeight: "600",
           }}
@@ -113,12 +113,12 @@ export default function ChatRoom({ route, navigation }) {
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
-            gap: "8px",
+            gap: 8,
           }}
         >
           <Text
             style={{
-              fontSize: "0.8rem",
+              fontSize: 12,
               textAlign: "right",
             }}
           >
@@ -239,7 +239,7 @@ export default function ChatRoom({ route, navigation }) {
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    height: "90vh",
+    height: "100%",
     backgroundColor: "#D3DFF1",
     alignItems: "center",
   },

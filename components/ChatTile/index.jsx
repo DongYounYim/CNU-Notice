@@ -1,13 +1,12 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import * as React from "react";
+import { View, Text, StyleSheet } from "react-native";
 
-import { Avatar } from '..';
-import Icon from 'react-native-vector-icons/AntDesign';
+import Avatar from "../Avatar";
 
 export default function ChatTile({ title, content, tail }) {
   const TailComponent = () => {
     switch (tail) {
-      case 'alram':
+      case "alram":
         return <View style={styles.alram} />;
       default:
         return <></>;
@@ -27,28 +26,26 @@ export default function ChatTile({ title, content, tail }) {
 
 const styles = StyleSheet.create({
   container: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
     gap: 12,
     padding: 12,
   },
   mainText: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   subText: {
-    display: 'block',
-    whiteSpace: 'nowrap',
+    whiteSpace: "nowrap",
     fontSize: 12,
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
+    overflow: "hidden",
+    textOverflow: "ellipsis",
   },
   alram: {
-    display: 'relative',
-    borderRadius: '50%',
+    borderRadius: 50,
     width: 10,
     height: 10,
-    backgroundColor: 'blue',
+    backgroundColor: "blue",
   },
 });
