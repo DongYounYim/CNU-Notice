@@ -1,7 +1,7 @@
 import * as React from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { NoticeTr, Spinner } from "../../components";
-import { AntDesign } from "@expo/vector-icons";
+import Icon from "react-native-vector-icons/AntDesign";
 import { TouchableOpacity } from "react-native";
 
 import {
@@ -11,6 +11,8 @@ import {
   setReadNotice,
 } from "../../api";
 import SearchBar from "../../components/SearchBar";
+
+import Bookmark from "react-native-vector-icons/FontAwesome";
 
 const lengthOneToTwo = (value) => {
   return value.toString().length === 1 ? `0${value}` : value;
@@ -22,6 +24,7 @@ export default function ChatRoom({ route, navigation }) {
   const [read, setRead] = React.useState([]);
   const [bookmarked, setBookmarked] = React.useState([]);
   const [todayNotice, setTodayNotice] = React.useState(0);
+  const [filtered, setFiltered] = React.useState(false);
 
   //page
   const [start, setStart] = React.useState(0);
@@ -57,6 +60,11 @@ export default function ChatRoom({ route, navigation }) {
     setBookmarked(bookmarkedData === undefined ? [] : bookmarkedData);
   };
 
+  const handleFilter = () => {
+    // TODO: 필터링 동작 시키기
+    setFiltered((state) => !state);
+  };
+
   const handleGoDetail = async (
     article_no,
     article_title,
@@ -72,9 +80,9 @@ export default function ChatRoom({ route, navigation }) {
     });
   };
 
-  React.useEffect(() => {
-    getData();
-  }, []);
+  // React.useEffect(() => {
+  //   getData();
+  // }, []);
 
   React.useEffect(() => {
     setStart(0);
@@ -84,6 +92,9 @@ export default function ChatRoom({ route, navigation }) {
   return (
     <View style={styles.container}>
       <View style={styles.serachBar}>
+        <TouchableOpacity onPress={handleFilter}>
+          <Bookmark name={filtered ? "bookmark" : "bookmark-o"} size={20} />
+        </TouchableOpacity>
         <SearchBar
           allNotice={allData}
           setFilteredNotice={setFilteredData}
@@ -134,7 +145,7 @@ export default function ChatRoom({ route, navigation }) {
               }
             }}
           >
-            <AntDesign name="left" size={20} color="black" />
+            <Icon name="left" size={20} color="black" />
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
@@ -144,47 +155,10 @@ export default function ChatRoom({ route, navigation }) {
               }
             }}
           >
-            <AntDesign name="right" size={20} color="black" />
+            <Icon name="right" size={20} color="black" />
           </TouchableOpacity>
         </View>
       </View>
-      {/* dummyData
-      <NoticeTr
-        board_no={306}
-        article_no={99}
-        read={true}
-        isNew={true}
-        title="[읽음] 데이터좀 불러조바"
-        bookmark={true}
-        date="23.06.11"
-      />
-      <NoticeTr
-        board_no={306}
-        article_no={98}
-        read={false}
-        isNew={false}
-        title="[안읽음] 데이터좀 불러조바"
-        bookmark={false}
-        date="23.06.11"
-      />
-      <NoticeTr
-        board_no={306}
-        article_no={98}
-        read={false}
-        isNew={false}
-        title="[안읽음] 데이터좀 불러조바"
-        bookmark={false}
-        date="23.06.11"
-      />
-      <NoticeTr
-        board_no={306}
-        article_no={98}
-        read={true}
-        isNew={false}
-        title="[읽음] 데이터좀 불러조바"
-        bookmark={false}
-        date="23.06.11"
-      /> */}
       <ScrollView style={styles.scrollView}>
         {filteredData.length !== 0 ? (
           filteredData
