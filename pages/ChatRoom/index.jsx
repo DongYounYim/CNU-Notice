@@ -80,9 +80,9 @@ export default function ChatRoom({ route, navigation }) {
     });
   };
 
-  // React.useEffect(() => {
-  //   getData();
-  // }, []);
+  React.useEffect(() => {
+    getData();
+  }, []);
 
   React.useEffect(() => {
     setStart(0);
