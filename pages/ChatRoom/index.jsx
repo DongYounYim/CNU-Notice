@@ -211,7 +211,9 @@ export default function ChatRoom({ route, navigation }) {
               }
             )
         ) : (
-          <Spinner size={80} />
+          <View style={{ alignItems: "center" }}>
+            <Spinner size={80} />
+          </View>
         )}
       </ScrollView>
     </View>

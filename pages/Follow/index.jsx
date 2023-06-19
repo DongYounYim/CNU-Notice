@@ -90,7 +90,9 @@ export default function Follow({ navigation: { setParams } }) {
             </ScrollView>
           </View>
         ) : (
-          <Spinner size={80} />
+          <View style={{ alignItems: "center" }}>
+            <Spinner size={80} />
+          </View>
         )}
       </View>
     </View>
