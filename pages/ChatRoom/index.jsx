@@ -20,7 +20,9 @@ const lengthOneToTwo = (value) => {
 
 export default function ChatRoom({ route, navigation }) {
   const [allData, setAllData] = React.useState([]);
-  const [filteredData, setFilteredData] = React.useState(allData);
+  const [filteredData, setFilteredData] = React.useState(
+    allData === undefined ? [] : allData
+  );
   const [read, setRead] = React.useState([]);
   const [bookmarked, setBookmarked] = React.useState([]);
   const [todayNotice, setTodayNotice] = React.useState(0);
@@ -40,7 +42,7 @@ export default function ChatRoom({ route, navigation }) {
   const getData = async () => {
     // 공지 불러오기
     const response = await getDetailNotice(route.params.board_no);
-    setAllData(response.RESULT);
+    setAllData(response.RESULT === undefined ? undefined : response.RESULT);
     const data = response.RESULT;
     const todayArticle = data.filter(({ update_dt }) => {
       const article_date = new Date(update_dt.time);
@@ -85,6 +87,9 @@ export default function ChatRoom({ route, navigation }) {
   }, []);
 
   React.useEffect(() => {
+    if (filteredData === undefined) {
+      return;
+    }
     setStart(0);
     setEnd(filteredData.length < 20 ? filteredData.length : 20);
   }, [filteredData]);
@@ -133,9 +138,11 @@ export default function ChatRoom({ route, navigation }) {
               textAlign: "right",
             }}
           >
-            {`${filteredData.length !== 0 ? filteredData.length : 0}중 ${
-              start + 1
-            } - ${end}`}
+            {`${
+              filteredData !== undefined && filteredData.length !== 0
+                ? filteredData.length
+                : 0
+            }중 ${start + 1} - ${end}`}
           </Text>
           <TouchableOpacity
             onPress={() => {
@@ -160,7 +167,7 @@ export default function ChatRoom({ route, navigation }) {
         </View>
       </View>
       <ScrollView style={styles.scrollView}>
-        {filteredData.length !== 0 ? (
+        {filteredData !== undefined && filteredData.length !== 0 ? (
           filteredData
             .slice(start, end)
             .map(

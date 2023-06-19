@@ -68,7 +68,7 @@ export default function Follow({ navigation: { setParams } }) {
           />
         </View>
 
-        {filteredNotice.length ? (
+        {filteredNotice !== undefined && filteredNotice.length ? (
           <View style={{ maxHeight: 320 }}>
             <ScrollView style={styles.scrollView}>
               {filteredNotice.map((notice) => {
